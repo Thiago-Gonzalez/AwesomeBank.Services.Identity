@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.1.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AwesomeBank.Services.Identity.Application\AwesomeBank.Services.Identity.Application.csproj" />
+    <ProjectReference Include="..\AwesomeBank.Services.Identity.Domain\AwesomeBank.Services.Identity.Domain.csproj" />
+    <ProjectReference Include="..\AwesomeBank.Services.Identity.Infrastructure\AwesomeBank.Services.Identity.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
