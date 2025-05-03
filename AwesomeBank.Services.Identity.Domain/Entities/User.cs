@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using AwesomeBank.Services.Identity.Domain.Enums;
 using AwesomeBank.Services.Identity.Domain.Events;
 using AwesomeBank.Services.Identity.Domain.ValueObjects;
@@ -7,14 +6,13 @@ namespace AwesomeBank.Services.Identity.Domain.Entities
 {
     public class User : AggregateRoot
     {
-        // Private constructor for EF Core
-        private User() { }
+        private User() {}
 
         public User(
             string fullName,
             string email,
             string password,
-            string documentNumber,
+            string document,
             UserRoleEnum role
         )
             : base()
@@ -24,8 +22,7 @@ namespace AwesomeBank.Services.Identity.Domain.Entities
             Password = password;
             Role = role;
 
-            var document = DocumentFactory.Create(documentNumber);
-            Document = document;
+            Document = DocumentFactory.Create(document);
 
             AddEvent(new UserCreated(Id, FullName, Email));
         }
@@ -33,17 +30,17 @@ namespace AwesomeBank.Services.Identity.Domain.Entities
         /// <summary>
         /// Gets or sets the full name for this user.
         /// </summary>
-        public string FullName { get; private set; }
+        public string FullName { get; private set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the email address for this user.
         /// </summary>
-        public string Email { get; private set; }
+        public string Email { get; private set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the password for this user.
         /// </summary>
-        public string Password { get; private set; }
+        public string Password { get; private set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the birthdate for this user.
@@ -53,7 +50,7 @@ namespace AwesomeBank.Services.Identity.Domain.Entities
         /// <summary>
         /// Gets or sets the document for this user.
         /// </summary>
-        public Document Document { get; set; }
+        public Document Document { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the role for this user.
