@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using AwesomeBank.Services.Identity.Domain.Enums;
 using AwesomeBank.Services.Identity.Domain.Events;
 using AwesomeBank.Services.Identity.Domain.ValueObjects;
@@ -6,11 +7,14 @@ namespace AwesomeBank.Services.Identity.Domain.Entities
 {
     public class User : AggregateRoot
     {
+        // Private constructor for EF Core
+        private User() { }
+
         public User(
             string fullName,
             string email,
             string password,
-            string document,
+            string documentNumber,
             UserRoleEnum role
         )
             : base()
@@ -20,7 +24,8 @@ namespace AwesomeBank.Services.Identity.Domain.Entities
             Password = password;
             Role = role;
 
-            Document = DocumentFactory.Create(document);
+            var document = DocumentFactory.Create(documentNumber);
+            Document = document;
 
             AddEvent(new UserCreated(Id, FullName, Email));
         }
@@ -36,19 +41,19 @@ namespace AwesomeBank.Services.Identity.Domain.Entities
         public string Email { get; private set; }
 
         /// <summary>
-        /// Gets or sets the birthdate for this user.
-        /// </summary>
-        public DateTime BirthDate { get; private set; }
-
-        /// <summary>
         /// Gets or sets the password for this user.
         /// </summary>
         public string Password { get; private set; }
 
         /// <summary>
-        /// Gets or sets the document number for this user.
+        /// Gets or sets the birthdate for this user.
         /// </summary>
-        public Document Document { get; private set; }
+        public DateTime BirthDate { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the document for this user.
+        /// </summary>
+        public Document Document { get; set; }
 
         /// <summary>
         /// Gets or sets the role for this user.
@@ -63,6 +68,14 @@ namespace AwesomeBank.Services.Identity.Domain.Entities
         /// </summary>
         /// <value></value>
         public DateTime? LastLoginAt { get; private set; }
+
+        /// <summary>
+        /// Sets the last time the user has logged in.
+        /// </summary>
+        public void SetLastLoginAt()
+        {
+            LastLoginAt = DateTime.Now;
+        }
 
         /// <summary>
         /// Updates user info.
